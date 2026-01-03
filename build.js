@@ -98,8 +98,8 @@ async function build() {
   console.log('Generating HTML...');
   const html = generateHTML(items);
 
-  fs.mkdirSync('dist', { recursive: true });
-  fs.writeFileSync('dist/index.html', html);
+  fs.mkdirSync('docs', { recursive: true });
+  fs.writeFileSync('docs/index.html', html);
 
   console.log('Done! Output: dist/index.html');
 }
