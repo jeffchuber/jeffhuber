@@ -21,11 +21,19 @@
     .date { color: #666; width: 110px; flex-shrink: 0; }
     a { color: #000; }
     a:hover { color: #666; }
+    .subscribe { margin: 1.5em 0; display: flex; gap: 0.5em; }
+    .subscribe input { padding: 0.4em 0.6em; border: 1px solid #ccc; font-family: inherit; font-size: inherit; }
+    .subscribe button { padding: 0.4em 1em; background: #000; color: #fff; border: none; font-family: inherit; font-size: inherit; cursor: pointer; }
+    .subscribe button:hover { background: #333; }
   </style>
 </head>
 <body>
   <h1>Jeff Huber</h1>
   <p><a href="https://x.com/jeffreyhuber">@jeffreyhuber</a> · founder <a href="https://x.com/trychroma">@trychroma</a></p>
+  <form class="subscribe" action="https://jeffhuber.substack.com/api/v1/free?nojs=true" method="post" target="_blank">
+    <input type="email" name="email" placeholder="your@email.com" required>
+    <button type="submit">Subscribe</button>
+  </form>
   <h2>Posts</h2>
   <ul>
 
