@@ -95,8 +95,10 @@ async function build() {
   const xml = await fetchFeed(FEED_URL);
 
   console.log('Parsing feed...');
-  const items = parseRSS(xml);
-  console.log(`Found ${items.length} posts`);
+  const allItems = parseRSS(xml);
+  const cutoffDate = new Date('2025-04-01');
+  const items = allItems.filter(item => item.pubDate >= cutoffDate);
+  console.log(`Found ${allItems.length} posts, showing ${items.length} from Apr 2025+`);
 
   console.log('Generating HTML...');
   const html = generateHTML(items);
