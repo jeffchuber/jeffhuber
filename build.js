@@ -4,6 +4,15 @@ const fs = require('fs');
 
 const FEED_URL = 'https://jeffhuber.substack.com/feed';
 
+// Manually-added articles (e.g. X posts) merged in alongside the Substack feed.
+const MANUAL_ARTICLES = [
+  {
+    title: 'The quick shall inherit the earth',
+    link: 'https://x.com/jeffreyhuber/status/2066315080262885509',
+    pubDate: new Date('2026-06-15T00:21:20.000Z'),
+  },
+];
+
 function fetchFeed(url) {
   return new Promise((resolve, reject) => {
     https.get(url, (res) => {
@@ -97,8 +106,11 @@ async function build() {
   console.log('Parsing feed...');
   const allItems = parseRSS(xml);
   const cutoffDate = new Date('2025-04-01');
-  const items = allItems.filter(item => item.pubDate >= cutoffDate);
-  console.log(`Found ${allItems.length} posts, showing ${items.length} from Apr 2025+`);
+  const items = allItems
+    .filter(item => item.pubDate >= cutoffDate)
+    .concat(MANUAL_ARTICLES)
+    .sort((a, b) => b.pubDate - a.pubDate);
+  console.log(`Found ${allItems.length} posts, showing ${items.length} from Apr 2025+ (incl. ${MANUAL_ARTICLES.length} manual)`);
 
   console.log('Generating HTML...');
   const html = generateHTML(items);
