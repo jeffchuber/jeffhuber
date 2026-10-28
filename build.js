@@ -4,12 +4,23 @@ const fs = require('fs');
 
 const FEED_URL = 'https://jeffhuber.substack.com/feed';
 
-// Manually-added articles (e.g. X posts) merged in alongside the Substack feed.
+// Manually-added articles merged in alongside the Substack feed. Links are
+// deduplicated below so featured Substack posts can remain here permanently.
 const MANUAL_ARTICLES = [
+  {
+    title: 'AI and the Adoration of the Golden Calf',
+    link: 'https://jeffhuber.substack.com/p/ai-and-the-adoration-of-the-golden',
+    pubDate: new Date('2026-07-24T12:00:00.000Z'),
+  },
   {
     title: 'The quick shall inherit the earth',
     link: 'https://x.com/jeffreyhuber/status/2066315080262885509',
     pubDate: new Date('2026-06-15T00:21:20.000Z'),
+  },
+  {
+    title: 'Girard, Utilitarianism, and the Trolley Problem',
+    link: 'https://jeffhuber.substack.com/p/girard-utilitarianism-and-the-trolley',
+    pubDate: new Date('2023-12-01T12:00:00.000Z'),
   },
 ];
 
@@ -106,11 +117,13 @@ async function build() {
   console.log('Parsing feed...');
   const allItems = parseRSS(xml);
   const cutoffDate = new Date('2025-04-01');
-  const items = allItems
-    .filter(item => item.pubDate >= cutoffDate)
-    .concat(MANUAL_ARTICLES)
+  const visibleFeedItems = allItems.filter(item => item.pubDate >= cutoffDate);
+  const itemsByLink = new Map(
+    visibleFeedItems.concat(MANUAL_ARTICLES).map(item => [item.link, item]),
+  );
+  const items = Array.from(itemsByLink.values())
     .sort((a, b) => b.pubDate - a.pubDate);
-  console.log(`Found ${allItems.length} posts, showing ${items.length} from Apr 2025+ (incl. ${MANUAL_ARTICLES.length} manual)`);
+  console.log(`Found ${allItems.length} posts, showing ${items.length} from Apr 2025+ (incl. ${MANUAL_ARTICLES.length} manual, deduplicated)`);
 
   console.log('Generating HTML...');
   const html = generateHTML(items);
