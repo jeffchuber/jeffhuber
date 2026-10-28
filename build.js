@@ -87,8 +87,8 @@ function generateHTML(items) {
       margin: 50px auto;
       padding: 0 20px;
     }
-    h1 { font-size: 1.5em; margin-bottom: 0.5em; }
-    h2 { font-size: 1.1em; margin-top: 2em; margin-bottom: 0.5em; }
+    h1 { font-size: 1.5em; font-weight: normal; margin-bottom: 0.5em; }
+    h2 { font-size: 1.1em; font-weight: normal; margin-top: 2em; margin-bottom: 0.5em; }
     ul { list-style: none; padding: 0; margin: 0; }
     li { margin: 0.4em 0; display: flex; }
     .date { color: #666; width: 110px; flex-shrink: 0; }
